@@ -1,97 +1,763 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
 
-    <title>reveal.js</title>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <title>GraphQL intro</title>
 
     <link rel="stylesheet" href="reveal.js/dist/reset.css" />
     <link rel="stylesheet" href="reveal.js/dist/reveal.css" />
-    <link rel="stylesheet" href="reveal.js/dist/theme/serif.css" id="theme" />
+    <link rel="stylesheet" href="reveal.js/dist/theme/beige.css" />
 
     <!-- Theme used for syntax highlighted code -->
-    <link
-      rel="stylesheet"
-      href="reveal.js/plugin/highlight/monokai.css"
-      id="highlight-theme"
-    />
-  </head>
-  <body>
+    <link rel="stylesheet" href="githublight.css" />
+</head>
+
+<body>
     <div class="reveal">
-      <div class="slides">
-        <section
-          data-markdown
-          data-separator="-----"
-          data-separator-vertical="---"
-        >
-          <textarea data-template>
-            # Title Page
+        <div class="slides">
+            <section>
+                <section>
+                    <img class="r-stretch" src="./images/graphqllogo.png" />
+                </section>
+                <section>
+                    <h3>Nie chcę robić innego API niż GraphQLowe...</h3>
+                    <h5 class="fragment fade-up">
+                        ...a mój frontendowiec nie chce się z innym integrować.
+                    </h5>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h3>O mnie</h3>
+                    <ul>
+                        <li class="fragment">zapaleniec GraphQL'owy</li>
+                        <li class="fragment">dotnet/devops@iteo</li>
+                        <li class="fragment">po godzinach buduję dom</li>
+                        <li class="fragment">ojciec dwójki kotów</li>
+                        <!-- <img class="fragment">//todo zdjęcie Luny i Imbira</img> -->
+                    </ul>
+                </section>
+                <section>
+                    <div style="display: flex;     flex-direction: column;" class="r-fit">
 
-            ### Date
+                        <div style="display: flex;     align-items: center;" class="r-fit">
+                            <img width="50%" src="./images/1.jpg" />
+                            <img width="50%" src="./images/2.jpg" />
+                        </div>
+                    </div>
+                </section>
 
-            -----
-            
-            Vertical slides are separated by `- - -`
-            
-            ---
-            
-            Vertical slides are separated by `- - -` .
-            
-            ---
-            
-            Vertical slides are separated by `- - -` ..
-     
-            -----
-            
-            # title
-            ## skills
-            * one
-            * two
-            * three
-            
-            ## heading
-            8. three
-            1. one
-            1. two
-         
-            
-            -----
-            
+            </section>
+            <section>
+                <h4>Agenda</h4>
+                <div style="display: inline-flex;">
+                    <ul>
+                        <li class="fragment fade-up">Czym jest GraphQL?</li>
+                        <li class="fragment fade-up">Po co to stosować?</li>
+                        <li class="fragment fade-up">Dostępne narzędzia?</li>
+                        <!-- <li class="fragment fade-up">Czy można szybciej implementować?</li> -->
+                        <li class="fragment fade-up">Czy GraphQL jest wydajny?</li>
+                    </ul>
+                    <ul>
+                        <li class="fragment fade-up">
+                            Jak zrobić to dobrze?
+                            <ul class="fragment">
+                                <li>Zarządzanie błędami</li>
+                                <li>Live data (subskrypcje)</li>
+                                <li>Wersjonowanie</li>
+                                <li>Security</li>
+                                <li>Mikroserwisy</li>
+                            </ul>
+                        </li>
+                    </ul>
 
-            # Questions
+                </div>
+            </section>
 
-            -----
+            <section>
+                <div>
+                    <h4>Dla kogo to?</h4>
+                </div>
+                <div class="r-stack">
+                    <ol>
+                        <li class="fragment" data-fragment-index="0">
+                            Server-side
+                            <ul>
+                                <li>Hot Chocolate (dotnet)</li>
+                                <li>Apollo server (js)</li>
+                                <li>Graphene (python)</li>
+                            </ul>
+                        </li>
+                        <li class="fragment" data-fragment-index="1">
+                            Client-side
+                            <ul>
+                                <li>Strawberry Shake (dotnet)</li>
+                                <li>Apollo client (js)</li>
+                                <li>Relay (js)</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </section>
+            <section>
 
-            ## made with
+                <section>
+                    <h3>GraphQL...</h3>
+                    <p class="fragment fade-up">to język zapytań do twojego API</p>
+                    <p class="fragment fade-up">to specyfikacja - nie framework</p>
+                    <p class="fragment fade-up">posiada system typów...</p>
+                </section>
+                <section>
+                    <h2>GraphQL w trzech krokach</h2>
+                </section>
+                <section>
+                    1. Opisz swoje dane
+                    <pre class="fragment fade-up"><code  data-trim data-noescape data-line-numbers>
+	type Project {
+		name: String
+		tagline: String
+	}
 
-            #### [reveal.js](https://github.com/hakimel/reveal.js)
+  type Query {
+    projects: [Project]
+  }
+	</code></pre>
+                </section>
+                <section>
+                    2. Zapytaj o to czego potrzebujesz
+                    <pre class="fragment fade-up"><code data-trim data-noescape data-line-numbers="2|3">
+	{
+		project(name: "GraphQL") {
+			tagline
+		}
+	}
+			  </code></pre>
+                </section>
+                <section>
+                    3. Otrzymaj przewidywalne wyniki
+                    <pre class="fragment fade-up"><code  data-trim data-noescape>
+	{
+		"project": {
+			"tagline": "A query language for APIs"
+		}
+	}
+				</code></pre>
+                </section>
+                <section>
+                    <h3>Podział na operacje:</h3>
+                    <ul>
+                        <li class="fragment fade-up">
+                            <span>Query</span>
+                            <span style="font-style: italic" class="fragment"> - GET</span>
+                        </li>
+                        <li class="fragment fade-up">
+                            <span>Mutation</span>
+                            <span style="font-style: italic" class="fragment">
+                  - POST / PUT / PATCH 
+                </span>
+                        </li>
+                        <li class="fragment fade-up">
+                            <span>Subscription</span>
+                            <span style="font-style: italic" class="fragment">
+                  - websockets</span>
+                        </li>
+                    </ul>
+                </section>
+            </section>
 
-            #### [excalidraw](https://github.com/excalidraw/excalidraw)
+            <section>
+                <section>
+                    <h2>Po co to stosować?</h2>
+                </section>
+                <section><img src="./images/swagger.png" /></section>
+                <section>
+                    <img src="./images/playground-types.png" />
+                </section>
+                <section>
+                    <h4>Query per widok</h4>
+                    <div style="display: flex;">
+                        <img class="fragment" width="50%" src="./images/mypets.jpg" />
+                        <pre class="fragment"><code data-trim data-noescape data-line-numbers> 
+query {
+  pets {
+    photoUrl
+    name
+  }
+}
+				</code></pre>
+                    </div>
+                </section>
+                <section>
+                    <div style="display: flex;">
+                        <img width="50%" src="./images/petsoverview.jpg" />
+                        <pre class="fragment"><code data-trim data-noescape data-line-numbers> 
+query {
+  pets {
+    name
+    vaccinations {
+      isVaccinationValid
+      vaccinatedAt
+    }
+    appointments {
+      nextBloodTestDate
+    }
+  }
+}
+				</code></pre>
+                    </div>
+                </section>
+                <section>
+                    <div style="display: flex;">
+                        <img width="50%" src="./images/compare.jpg" />
+                        <pre class="fragment"><code data-trim data-noescape data-line-numbers> 
+query {
+  pet(petId: 1) {
+    name
+    left: bloodTestsResults(at: "17.11.21") {
+      whiteBloodCells
+      lymphocytes
+      notes
+    }
+    right: bloodTestsResults(at: "17.06.21") {
+      whiteBloodCells
+      lymphocytes
+      notes
+    }
+  }
+}
+				</code></pre>
+                    </div>
+                </section>
+                <section>
+                    <h2>A co jeśli to 3 różne aplikacje?</h2>
+                </section>
+                <section>
+                    <h4>Większa odporność na błędy - system typów</h4>
 
-          </textarea>
-        </section>
-      </div>
+                    <div class="r-stack">
+                        <div style="min-width: 400px;">
+                            <pre class="fragment" data-fragment-index="1"><code data-trim data-noescape data-line-numbers>
+                {
+                  "firstName": "Imbir",
+                  "lastName": "Pazurek"
+                }
+              </code></pre>
+                            <pre class="fragment" data-fragment-index="2"><code data-trim data-noescape data-line-numbers="4">
+                {
+                  "firstName": "Imbir",
+                  "lastName": "Pazurek",
+                  "nonExistantField": 123
+                }
+              </code></pre>
+
+                            <pre class="fragment" data-fragment-index="3"><code data-trim data-noescape data-line-numbers="2-3">
+                {
+                  "fitNme": "Imbir",
+                  "lsatNmea": "Pazurek"
+                }
+              </code></pre>
+                        </div>
+
+                        <img class="fragment" data-fragment-index="4" src="./images/schema-validation.png" />
+                    </div>
+
+                </section>
+                <section>
+                    <h2>Tooling</h2>
+                </section>
+                <section>
+                    <h4>GraphQL Voyager</h4>
+                    <img class="r-stretch" src="./images/voyager.gif" />
+                </section>
+                <section>
+                    <h4>GraphQL Playground</h4>
+                    <img class="r-stretch" src="./images/playground.png" />
+                </section>
+                <section>
+                    <img class="r-stretch" src="./images/types.gif" />
+                </section>
+                <section>
+                    <h2>Code gen</h2>
+                    <small class="fragment">Na przykładzie Apollo CodeGen / Strawberry Shake</small>
+                    <ol>
+                        <li class="fragment">Pobierz scheme</li>
+                        <li class="fragment">Napisz zapytania</li>
+                        <li class="fragment">Zestaw zapytania ze schematem</li>
+                        <li class="fragment">Wygeneruj typy</li>
+                        <li class="fragment">Używaj</li>
+                    </ol>
+                </section>
+            </section>
+
+            </section>
+            <section>
+                <section>
+                    <h2>Czy GraphQL jest wydajny?</h2>
+                </section>
+
+                <section>
+                    <h3>Kilka operacji w ramach jednego żądania HTTP</h3>
+                    <pre><code data-trim data-noescape data-line-numbers>
+query {
+  a: pets {
+    name
+  }
+  b: medicines {
+    price
+  }
+}
+          </code></pre>
+                </section>
+
+                <section>
+                    <h3>Overfetching i Underfetching</h3>
+                    <img class="fragment" width="50%" src="./images/petsswagger.png" />
+                </section>
+
+                <section data-transition="fade">
+                    <h3>Resolver'y</h3>
+                    <pre class="r-fit"><code data-trim data-noescape data-line-numbers>
+query {
+  pets {
+    name
+    vaccinations {
+		  isVaccinationValid
+		  vaccinatedAt
+		}
+	}
+}										
+													</code></pre>
+
+                    <img src="./images/resolvers.svg" />
+
+                </section>
+                <section>
+                    <h3>DataLoader (n+1)</h3>
+                </section>
+                <section>
+                    <img src="images/petsswagger.png" />
+
+                    <img src="./images/fetches.svg" />
+
+                </section>
+                <section>
+                    <pre><code data-trim data-noescape data-line-numbers>
+query {
+  pets {
+    id
+    name
+    ownerId
+    owner {
+      id
+      name
+    }
+  }
+}
+          </code></pre>
+                </section>
+                <section>
+                    <img src="./images/dataloader.svg" />
+                </section>
+            </section>
+            <section>
+                <pre><code data-trim data-noescape data-line-numbers>
+query GetQrCode {
+  qrCode(for: "BITAD2021") {
+    imgPath
+  }
+}
+                          </code></pre>
+            </section>
+            <section>
+                <img class="r-stretch" src="images/qr_code.png" />
+            </section>
+            <section>
+                <section>
+                    <h2>Jak zrobić to dobrze?</h2>
+                </section>
+
+
+                <section>
+                    <h4>200 OK - Zarządzanie błędami</h4>
+                    <small>Źródło: https://sachee.medium.com/200-ok-error-handling-in-graphql-7ec869aec9bc</small>
+                </section>
+                <section>
+                    <pre><code data-trim data-noescape data-line-numbers>
+{
+  pet(species: "Cat") {
+    id
+    name
+  }
+}
+            </code></pre>
+                </section>
+                <section>
+                    <pre><code data-trim data-noescape data-line-numbers>
+
+  {
+    "data": {
+      "pet": null
+    },
+    "errors": [
+      { "path": [ "pet" ],
+        "locations": [ { "line": 2, "column": 3 } ],
+        "extensions": {
+          "message": "Object not found",
+          "type": 2
+        }
+      }
+    ]
+  }
+</code></pre>
+                </section>
+                <section>
+                    <ol>
+                        <li>Wszystkie błędy traktowane są tak samo</li>
+                        <li class="fragment">Nie wiadomo skąd błąd pochodzi</li>
+                        <li class="fragment">Czy powieniem zareagować?</li>
+                    </ol>
+                </section>
+                <section>
+                    <h4>Error =/= Result</h4>
+                    <ul>
+                        <li class="fragment">Internal Server Error</li>
+                        <li class="fragment">Unavailable In Country</li>
+                        <li class="fragment">Pet Not Found</li>
+                    </ul>
+
+                </section>
+                <section>
+                    <pre><code data-trim data-noescape data-line-numbers>
+union PetResult = Pet | UnavailableInCountry | PetNotFound
+  </code></pre>
+
+                    <pre class="fragment"><code data-trim data-noescape data-line-numbers>
+    query {
+      __typename
+      pet(species: "Cat") {
+        ... on Pet {
+          id
+          name
+        }
+        ... on UnavailableInCountry {
+          reason
+          species
+        }
+      }
+    }
+      </code></pre>
+                </section>
+                <section>
+                    <h4>Live data (subskrypcje)</h4>
+                </section>
+                <section>
+                    <pre><code class="r-stretch" data-trim data-noescape data-line-numbers>
+type Message {
+  sentBy: String!
+  sentAt: DateTime!
+  value: String!
+}
+
+type Subscription {
+  messageAdded() : Message!
+}
+
+</code></pre>
+                </section>
+                <section>
+                    <pre><code class="r-stretch" data-trim data-noescape data-line-numbers>
+subscription OnMessageSend {
+  messageAdded {
+    sentBy
+    sentAt
+    value
+  }
+}
+</code></pre>
+                </section>
+                <section>
+                    <h4>Wersjonowanie</h4>
+                    <small class="fragment">GraphQL Doctor</small>
+                    <img class="r-fit fragment" src="./images/versioning.jpg" />
+
+                </section>
+
+                <section>
+                    <h4>Security & Performance</h4>
+                    <ul>
+                        <li class="fragment">Authorization & Authentication</li>
+                        <li class="fragment">Depth limiting</li>
+                        <li class="fragment">Operation Complexity</li>
+                        <li class="fragment">(Automatic) Persisted Queries</li>
+                    </ul>
+                </section>
+            </section>
+            <section>
+                <section>
+                    <h2>Mikroserwisy</h2>
+                </section>
+                <section>
+                    <h3>API Gateway</h3>
+                    <img class="fragment" src="./images/gateway.svg" />
+                </section>
+                <section>
+                    <h3>Stitching / Federation</h3>
+                    <ul>
+                        <li class="fragment">Łączenie wielu usług poprzez zszywanie schematów</li>
+                        <li class="fragment">Możliwość modyfikacji typów w locie</li>
+                        <li class="fragment">Możliwość rozszerzania typów</li>
+                    </ul>
+                </section>
+                <section>
+                    <small>Na przykładzie HotChocolate</small>
+                    <pre><code data-trim data-noescape data-line-numbers>
+type Pet {
+  id: ID!
+  ownerId: ID!
+  name: String!
+}
+
+extend type Pet {
+  owner: Client @delegate(schema:"clients",
+                path: "client(id: $fields:ownerId)")
+}
+        </code></pre>
+                </section>
+            </section>
+            <section>
+                <h4>Kiedy się sprawdzi?</h4>
+                <div><small class="fragment">ZAWSZE, ale szczególnie w przypadku gdy:</small></div>
+                <ul>
+                    <li class="fragment">transfer ma znaczenie</li>
+                    <li class="fragment">otwarte API</li>
+                    <li class="fragment">podobne widoki</li>
+                    <li class="fragment">konfigurowalne widoki / raporty</li>
+                    <li class="fragment">jako Gateway dla wielu usług</li>
+                </ul>
+            </section>
+            <section>
+                <pre><code data-trim data-noescape data-line-numbers="1|2-8|11-13">
+query GetQuestionsAndLinks {
+  questions {
+    ... on AnyQuestion {
+      answer
+    }
+    ... on NoQuestions {
+      sadFrogUrl
+    }
+  }
+
+  links {
+    url
+  }
+}
+
+          </code></pre>
+                <ul class="fragment">
+                    <li><a href="https://marcin-janiak.github.io/graphql-intro/">marcin-janiak.github.io/graphql-intro/</a></li>
+                    <li><a href="https://chillicream.com/">chillicream.com (dotnet)</a></li>
+                    <li><a href="https://www.apollographql.com">apollographql.com</a></li>
+                    <li> <a href="https://www.howtographql.com/">howtographql.com</a></li>
+                    <li> <a href="https://sachee.medium.com/200-ok-error-handling-in-graphql-7ec869aec9bc">200 OK - Sasha Solomon</a></li>
+                </ul>
+            </section>
+            <section>
+                <section>
+                    <h4>Co posiada system typów?</h4>
+                </section>
+                <section data-transition="fade">
+                    <h4>Typy skalarne</h4>
+                    <pre><code  data-trim data-noescape data-line-numbers="2-3">
+                            type Project {
+                                id: ID!
+                                tagline: String
+                                contributors: [User]
+                            }
+                            </code></pre>
+                </section>
+                <section data-transition="fade">
+                    <h4>NonNull</h4>
+                    <pre><code  data-trim data-noescape data-line-numbers="2">
+                            type Project {
+                                id: ID!
+                                tagline: String
+                                contributors: [User]
+                            }
+                            </code></pre>
+                </section>
+                <section data-transition="fade">
+                    <h4>Listy</h4>
+                    <pre><code  data-trim data-noescape data-line-numbers="4-7">
+                            type Project {
+                                id: ID!
+                                tagline: String
+                                contributors: [User]
+                                listOfNonNulls: [User!]
+                                nonNullableList: [User]!
+                                superList: [User!]!
+                            }
+                            </code></pre>
+                </section>
+                <section data-transition="fade">
+                    <h4>Interfejsy</h4>
+                    <pre><code  data-trim data-noescape data-line-numbers>
+          interface Pet {
+            id: ID!
+            name: String
+            legsCount: Int
+          }
+                            </code></pre>
+                    <pre><code  data-trim data-noescape data-line-numbers="2-4, 9-11 | 5, 12">
+          type Snake implements Pet {
+            id: ID!
+            name: String
+            legsCount: Int
+            length: Int!
+          }
+          
+          type Cat implements Pet {
+            id: ID!
+            name: String
+            legsCount: Int
+            tailLength: Int!
+          }
+                                </code></pre>
+                </section>
+                <section data-transition="fade">
+                    <h4>Union types</h4>
+                    <pre><code  data-trim data-noescape>
+                            union SearchResult = Pet | Project | Country
+                            </code></pre>
+                </section>
+                <section data-transition="fade">
+                    <p>Inline fragments</p>
+                    <pre class="r-stretch"><code data-trim data-noescape data-line-numbers>
+          query {
+            search(filter: {name: {eq: "Luna"}}) {
+                __typename
+                ... on Pet {
+                    id
+                    name
+                    ... on Cat {
+                        tailLength
+                    }
+                    ... on Snake {
+                        length
+                    }
+                }
+            
+                ... on Project {
+                    id
+                    name
+                    tagline
+                }
+            }
+          }
+                            </code></pre>
+                </section>
+                <section data-transition="fade">
+                    <p>Fragments</p>
+                    <pre class="r-fit"><code data-trim data-noescape data-line-numbers>
+          {
+          left: countries(filter: { code: { eq: "PL" } }) {
+            ...comparisonFields
+          }
+          right: countries(filter: { code: { eq: "GB" } }) {
+            ...comparisonFields
+          }
+          }
+          
+          fragment comparisonFields on Country {
+          code
+          name
+          native
+          }
+          
+                            </code></pre>
+                </section>
+
+                <section data-transition="fade">
+                    <p>Dyrektywy</p>
+                    <pre class="r-fit"><code data-trim data-noescape data-line-numbers>
+          query getCountries($withNativeNames: Boolean!) {
+            countries {
+                code
+                name
+                native @include(if: $withNativeNames)
+                # @skip(if: Boolean!)
+                # @deprecated
+                # custom directives, e.g.
+                # @uppercase
+                # @unit(unit: "MILLIMETERS") etc.)
+            }
+          }
+                            </code></pre>
+                    <pre class="r-fit"><code data-trim data-noescape data-line-numbers>
+          {
+            "withNativeNames": false
+          }
+                                </code></pre>
+                </section>
+
+                <section data-transition="fade">
+                    <p>Input types</p>
+                    <div class="r-stack r-fit">
+                        <div class="fragment r-fit fade-out" data-fragment-index="1">
+                            <pre><code  data-trim data-noescape data-line-numbers>
+          input CreateProjectInput {
+            name: String!
+            type: ProjectType!
+          }		  
+                                                        </code></pre>
+                            <pre><code data-trim data-noescape data-line-numbers>
+          mutation addProject {
+            addProject(input: { name: "GraphQL intro", type: "AGILE" }) {
+                id
+            }
+          }					  
+                            </code></pre>
+                        </div>
+                        <div class="r-fit fragment" data-fragment-index="1">
+                            <pre class="r-fit"><code data-trim data-noescape data-line-numbers>
+          mutation addProject($input: CreateProjectInput!) {
+            addProject(input: $input) {
+                id
+            }
+          }	  
+                                </code></pre>
+                            <pre class="r-fit"><code data-trim data-noescape data-line-numbers>
+          {
+            "input": {
+                "name":"GraphQL intro",
+                "type": "AGILE"
+            }
+          }										
+                                    </code></pre>
+                        </div>
+                    </div>
+                </section>
+            </section>
+        </div>
     </div>
 
     <script src="reveal.js/dist/reveal.js"></script>
     <script src="reveal.js/plugin/notes/notes.js"></script>
     <script src="reveal.js/plugin/markdown/markdown.js"></script>
     <script src="reveal.js/plugin/highlight/highlight.js"></script>
-    <script src="reveal.js/plugin/zoom/zoom.js"></script>
     <script>
-      // More info about initialization & config:
-      // - https://revealjs.com/initialization/
-      // - https://revealjs.com/config/
-      Reveal.initialize({
-        hash: true,
+        // More info about initialization & config:
+        // - https://revealjs.com/initialization/
+        // - https://revealjs.com/config/
+        Reveal.initialize({
+            hash: true,
 
-        // Learn about plugins: https://revealjs.com/plugins/
-        plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealZoom],
-      });
+            // Learn about plugins: https://revealjs.com/plugins/
+            plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+        });
     </script>
-  </body>
+</body>
+
 </html>
