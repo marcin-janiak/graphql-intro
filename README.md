@@ -4,3 +4,9 @@
 - [Apollo - js platform](https://www.apollographql.com)
 - [GraphQL basics - How to graphql](https://www.howtographql.com/)
 - [Mentioned 200 OK - Error Handling article by Sasha Solomon](https://sachee.medium.com/200-ok-error-handling-in-graphql-7ec869aec9bc)
+
+
+
+## QR Code for contest
+
+![QR Code](https://raw.githubusercontent.com/marcin-janiak/graphql-intro/master/images/qr_code.png)
