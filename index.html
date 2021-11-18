@@ -115,7 +115,7 @@
                 </section>
                 <section>
                     1. Opisz swoje dane
-                    <pre class="fragment fade-up"><code  data-trim data-noescape data-line-numbers>
+                    <pre class="fragment fade-up"><code class="graphql"  data-trim data-noescape data-line-numbers>
 	type Project {
 		name: String
 		tagline: String
@@ -180,7 +180,7 @@
                     <h4>Query per widok</h4>
                     <div style="display: flex;">
                         <img class="fragment" width="50%" src="./images/mypets.jpg" />
-                        <pre class="fragment"><code data-trim data-noescape data-line-numbers> 
+                        <pre class="fragment"><code class="graphql" data-trim data-noescape data-line-numbers> 
 query {
   pets {
     photoUrl
@@ -193,7 +193,7 @@ query {
                 <section>
                     <div style="display: flex;">
                         <img width="50%" src="./images/petsoverview.jpg" />
-                        <pre class="fragment"><code data-trim data-noescape data-line-numbers> 
+                        <pre class="fragment"><code class="graphql" data-trim data-noescape data-line-numbers> 
 query {
   pets {
     name
@@ -539,7 +539,7 @@ extend type Pet {
                 </ul>
             </section>
             <section>
-                <pre><code data-trim data-noescape data-line-numbers="1|2-8|11-13">
+                <pre><code class="graphql" data-trim data-noescape data-line-numbers="1|2-8|11-13">
 query GetQuestionsAndLinks {
   questions {
     ... on AnyQuestion {
@@ -628,13 +628,13 @@ query GetQuestionsAndLinks {
                 </section>
                 <section data-transition="fade">
                     <h4>Union types</h4>
-                    <pre><code  data-trim data-noescape>
+                    <pre><code class="graphql" data-trim data-noescape>
                             union SearchResult = Pet | Project | Country
                             </code></pre>
                 </section>
                 <section data-transition="fade">
                     <p>Inline fragments</p>
-                    <pre class="r-stretch"><code data-trim data-noescape data-line-numbers>
+                    <pre class="r-stretch"><code class="graphql" data-trim data-noescape data-line-numbers>
           query {
             search(filter: {name: {eq: "Luna"}}) {
                 __typename
@@ -747,6 +747,7 @@ query GetQuestionsAndLinks {
     <script src="reveal.js/plugin/notes/notes.js"></script>
     <script src="reveal.js/plugin/markdown/markdown.js"></script>
     <script src="reveal.js/plugin/highlight/highlight.js"></script>
+
     <script>
         // More info about initialization & config:
         // - https://revealjs.com/initialization/
