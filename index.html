@@ -381,7 +381,7 @@ query GetQrCode {
 
 
                 <section>
-                    <h4>200 OK - Zarządzanie błędami</h4>
+                    <h2>200 OK - Zarządzanie błędami</h2>
                     <small>Źródło: https://sachee.medium.com/200-ok-error-handling-in-graphql-7ec869aec9bc</small>
                 </section>
                 <section>
@@ -414,14 +414,15 @@ query GetQrCode {
 </code></pre>
                 </section>
                 <section>
+                    <h3>Jakie to powoduje problemy</h3>
                     <ol>
-                        <li>Wszystkie błędy traktowane są tak samo</li>
+                        <li class="fragment">Wszystkie błędy traktowane są tak samo</li>
                         <li class="fragment">Nie wiadomo skąd błąd pochodzi</li>
                         <li class="fragment">Czy powieniem zareagować?</li>
                     </ol>
                 </section>
                 <section>
-                    <h4>Error =/= Result</h4>
+                    <h3>Error =/= Result</h3>
                     <ul>
                         <li class="fragment">Internal Server Error</li>
                         <li class="fragment">Unavailable In Country</li>
@@ -451,7 +452,7 @@ union PetResult = Pet | UnavailableInCountry | PetNotFound
       </code></pre>
                 </section>
                 <section>
-                    <h4>Live data (subskrypcje)</h4>
+                    <h2>Live data (subskrypcje)</h2>
                 </section>
                 <section>
                     <pre><code class="r-stretch" data-trim data-noescape data-line-numbers>
@@ -486,7 +487,7 @@ subscription OnMessageSend {
                 </section>
 
                 <section>
-                    <h4>Security & Performance</h4>
+                    <h3>Security</h3>
                     <ul>
                         <li class="fragment">Authorization & Authentication</li>
                         <li class="fragment">Depth limiting</li>
